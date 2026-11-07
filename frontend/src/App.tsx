@@ -580,6 +580,10 @@ export const App: React.FC = () => {
         salt = saved.salt;
       }
 
+      if (!move || !salt) {
+        return;
+      }
+
       setTxStatus({
         state: 'pending',
         message: `Revealing your ${getMoveName(move)}...`,

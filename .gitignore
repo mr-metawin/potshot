@@ -3,8 +3,9 @@
 *.password
 .password
 password.txt
-*secret*
+*.secret
 *.key
+!frontend/src/secret.ts
 
 # Foundry
 contracts/out/
