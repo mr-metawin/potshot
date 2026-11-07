@@ -3,6 +3,7 @@
 *.password
 .password
 password.txt
+instructions.txt
 *.secret
 *.key
 !frontend/src/secret.ts
