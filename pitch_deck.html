@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PotShot Pitch Deck - One throw. One pot.</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Press+Start+2P&family=JetBrains+Mono:wght@500;700&display=swap');
+
+    @page {
+      size: 1920px 1080px;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      background-color: #f1f5f9;
+      color: #0f172a;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      page-break-after: always;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 70px 90px;
+      background: #ffffff;
+      background-image: 
+        radial-gradient(circle at 10% 10%, rgba(225, 29, 72, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(2, 132, 199, 0.05) 0%, transparent 40%),
+        linear-gradient(rgba(241, 245, 249, 0.6) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(241, 245, 249, 0.6) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+      overflow: hidden;
+    }
+
+    /* Decorative Top Bar */
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #e11d48, #d97706, #0284c7, #10b981);
+    }
+
+    /* Slide Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tag-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0369a1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .slide-title {
+      font-size: 42px;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -1px;
+      line-height: 1.15;
+    }
+
+    .slide-subtitle {
+      font-size: 18px;
+      color: #64748b;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    /* Slide Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #e2e8f0;
+      padding-top: 20px;
+      font-size: 14px;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px;
+      color: #e11d48;
+    }
+
+    .slide-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      background: #f1f5f9;
+      padding: 4px 12px;
+      border-radius: 6px;
+      color: #334155;
+    }
+
+    /* Content Layouts */
+    .content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 28px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    /* Bright Theme Cards */
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+      position: relative;
+    }
+
+    .card.accent-red { border-top: 4px solid #e11d48; }
+    .card.accent-blue { border-top: 4px solid #0284c7; }
+    .card.accent-amber { border-top: 4px solid #d97706; }
+    .card.accent-green { border-top: 4px solid #10b981; }
+
+    .card-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+      display: inline-block;
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 15px;
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    /* Metric & Highlight Blocks */
+    .stat-badge {
+      font-size: 38px;
+      font-weight: 800;
+      color: #0f172a;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+
+    .code-pill {
+      font-family: 'JetBrains Mono', monospace;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #0f172a;
+    }
+
+    /* Workflow Stepper */
+    .step-box {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      position: relative;
+    }
+
+    .step-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #0284c7;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 12px;
+    }
+
+    /* Cover Slide Specifics */
+    .cover-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100%;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 20px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 9999px;
+      color: #e11d48;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    .cover-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 82px;
+      color: #0f172a;
+      letter-spacing: -2px;
+      margin-bottom: 20px;
+      line-height: 1.1;
+      text-shadow: 4px 4px 0 #cbd5e1;
+    }
+
+    .cover-tagline {
+      font-size: 38px;
+      font-weight: 700;
+      color: #0284c7;
+      margin-bottom: 28px;
+    }
+
+    .cover-desc {
+      font-size: 22px;
+      color: #475569;
+      max-width: 980px;
+      line-height: 1.6;
+      margin-bottom: 40px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 20px 24px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .meta-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 700;
+    }
+
+    .meta-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 1: COVER                             -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div class="header-left">
+        <span class="tag-pill">🎯 Web3 Gaming Protocol</span>
+        <span class="tag-pill" style="color:#d97706; background:#fffbeb; border-color:#fde68a;">BOT Blockchain</span>
+      </div>
+      <div class="slide-number">PITCH DECK • 2026</div>
+    </div>
+
+    <div class="cover-container">
+      <div class="cover-badge">
+        <span>⚡ 100% Onchain • Peer-to-Peer • Zero House Edge</span>
+      </div>
+      <h1 class="cover-title">PotShot</h1>
+      <div class="cover-tagline">"One throw. One pot."</div>
+      <p class="cover-desc">
+        Trustless 1v1 Rock-Paper-Scissors wagering on the BOT Testnet. Players secretly commit with cryptographic hashes, match exact native BOT stakes, and reveal in real time. Winner takes the whole pot—with automated timeout forfeiture protection and zero platform take.
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Network</span>
+          <span class="meta-val">BOT Testnet (968)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Contract Address</span>
+          <span class="meta-val">0x5A68...834e</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Security</span>
+          <span class="meta-val">OZ 5.x ReentrancyGuard</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Status</span>
+          <span class="meta-val" style="color:#10b981;">● Live & Verified</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>Confidential & Proprietary • BOT Ecosystem</div>
+      <div class="slide-number">01 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 2: THE PROBLEM                       -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">The Problem With Modern Onchain Gaming</h2>
+        <p class="slide-subtitle">Predatory house cuts, mempool front-running, and dishonest player abandonment</p>
+      </div>
+      <span class="tag-pill" style="color:#e11d48; background:#fff1f2; border-color:#fecdd3;">Market Inefficiencies</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-2">
+        <div class="card accent-red">
+          <span class="card-icon">🎰</span>
+          <h3 class="card-title">1. Predatory House Edges & Casino Bias</h3>
+          <p class="card-desc">
+            Traditional online casinos and Web3 gambling apps impose 2%–10% house edges, ensuring players are mathematically destined to lose over time. Players crave fair, skill-and-mind-game 50/50 PvP wagers without feeding an intermediary.
+          </p>
+        </div>
+
+        <div class="card accent-red">
+          <span class="card-icon">👀</span>
+          <h3 class="card-title">2. Mempool Sniping & Front-Running</h3>
+          <p class="card-desc">
+            In naive turn-based onchain games, submitting moves unencrypted allows MEV bots, miners, or watchful opponents to inspect transactions in the mempool and counter the move before block confirmation.
+          </p>
+        </div>
+
+        <div class="card accent-red">
+          <span class="card-icon">🧊</span>
+          <h3 class="card-title">3. The "Losing Player Freeze" / Griefing Bug</h3>
+          <p class="card-desc">
+            In typical two-player reveal games, if Player A reveals a winning move first, Player B realizes they lost and simply abandons the session—leaving the creator's stake frozen indefinitely in smart contract escrow.
+          </p>
+        </div>
+
+        <div class="card accent-red">
+          <span class="card-icon">🔌</span>
+          <h3 class="card-title">4. Fragile Oracles & Vulnerable Push Transfers</h3>
+          <p class="card-desc">
+            Games relying on Chainlink VRF or external keepers suffer from latency and fee overhead. Furthermore, contracts that push ETH/BOT directly to external addresses can be frozen by malicious receiver fallback reverts.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">02 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 3: THE SOLUTION                      -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">The Solution: Trustless Cryptographic Duels</h2>
+        <p class="slide-subtitle">A mathematically fair 1v1 Rock-Paper-Scissors arena with zero house edge</p>
+      </div>
+      <span class="tag-pill" style="color:#0284c7; background:#f0f9ff; border-color:#bae6fd;">PotShot Innovation</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-3">
+        <div class="card accent-blue">
+          <span class="card-icon">🛡️</span>
+          <h3 class="card-title">Cryptographic Commit-Reveal</h3>
+          <p class="card-desc">
+            Moves are permanently hidden until both players lock in. The commitment formula hashes the player's address, choice, and random 32-byte salt:
+            <br><br>
+            <code class="code-pill">keccak256(abi.encode(player, move, salt))</code>
+            <br><br>
+            Nobody can see or front-run the opponent's move.
+          </p>
+        </div>
+
+        <div class="card accent-amber">
+          <span class="card-icon">⏰</span>
+          <h3 class="card-title">Anti-Griefing Timeout Engine</h3>
+          <p class="card-desc">
+            A built-in deadline countdown ensures nobody can hold funds hostage. If a player hides their move after seeing the opponent's reveal, the honest revealer automatically wins the entire 2× pot by forfeit via <code class="code-pill">claimTimeout()</code>.
+          </p>
+        </div>
+
+        <div class="card accent-green">
+          <span class="card-icon">💎</span>
+          <h3 class="card-title">100% P2P & Pull-Payments</h3>
+          <p class="card-desc">
+            Zero fees extracted by the protocol. Every win, draw, or refund credits <code class="code-pill">pendingBalance</code>. Funds exit only when the user executes <code class="code-pill">withdraw()</code>, preventing external reentrancy and blocking malicious revert griefing.
+          </p>
+        </div>
+      </div>
+
+      <!-- Highlight Banner -->
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:14px; padding:20px 28px; display:flex; justify-content:space-around; align-items:center;">
+        <div style="text-align:center;">
+          <div class="stat-badge" style="color:#0284c7;">0%</div>
+          <div style="font-size:13px; font-weight:700; color:#64748b; text-transform:uppercase;">Protocol Take Rate</div>
+        </div>
+        <div style="height:40px; width:1px; background:#cbd5e1;"></div>
+        <div style="text-align:center;">
+          <div class="stat-badge" style="color:#e11d48;">1v1</div>
+          <div style="font-size:13px; font-weight:700; color:#64748b; text-transform:uppercase;">PVP Skill & Odds</div>
+        </div>
+        <div style="height:40px; width:1px; background:#cbd5e1;"></div>
+        <div style="text-align:center;">
+          <div class="stat-badge" style="color:#10b981;">100%</div>
+          <div style="font-size:13px; font-weight:700; color:#64748b; text-transform:uppercase;">Fully Autonomous Onchain</div>
+        </div>
+        <div style="height:40px; width:1px; background:#cbd5e1;"></div>
+        <div style="text-align:center;">
+          <div class="stat-badge" style="color:#d97706;">2×</div>
+          <div style="font-size:13px; font-weight:700; color:#64748b; text-transform:uppercase;">Winner Takes Pot</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">03 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 4: THE GAME WORKFLOW                 -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">Four-Step Trustless Game Lifecycle</h2>
+        <p class="slide-subtitle">Deterministic state machine transitions enforce fair play from stake to payout</p>
+      </div>
+      <span class="tag-pill" style="color:#10b981; background:#ecfdf5; border-color:#a7f3d0;">Protocol Architecture</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-4">
+        <div class="step-box">
+          <div class="step-num">1</div>
+          <h3 class="card-title">Create Game</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Player A selects Rock ✊, Paper ✋, or Scissors ✌️, enters BOT stake, generates a random 32-byte salt, and broadcasts <code class="code-pill">createGame(commitA)</code>.
+          </p>
+          <div style="margin-top:14px; font-size:12px; font-weight:700; color:#0284c7;">STATUS: OPEN</div>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num" style="background:#d97706;">2</div>
+          <h3 class="card-title">Join Game</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Player B matches the exact stake with their own secret commitment. <code class="code-pill">joinGame(id, commitB)</code> starts the reveal countdown timer (1 hour).
+          </p>
+          <div style="margin-top:14px; font-size:12px; font-weight:700; color:#d97706;">STATUS: COMMITTED</div>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num" style="background:#e11d48;">3</div>
+          <h3 class="card-title">Reveal Moves</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Both players broadcast <code class="code-pill">reveal(id, move, salt)</code>. The contract verifies the hash matches the commitment. The UI animates fists shaking.
+          </p>
+          <div style="margin-top:14px; font-size:12px; font-weight:700; color:#e11d48;">SHOWDOWN PHASE</div>
+        </div>
+
+        <div class="step-box">
+          <div class="step-num" style="background:#10b981;">4</div>
+          <h3 class="card-title">Showdown Settle</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Standard RPS rules:
+            <br>• Decisive Win: Winner takes 2× stake.
+            <br>• Tie: Both refunded.
+            <br>• Timeout: Non-revealer forfeits full pot to revealer.
+          </p>
+          <div style="margin-top:14px; font-size:12px; font-weight:700; color:#10b981;">STATUS: WON / DRAW</div>
+        </div>
+      </div>
+
+      <!-- State table card -->
+      <div class="card" style="padding:18px 24px; background:#f8fafc;">
+        <table style="width:100%; border-collapse:collapse; font-size:14px; text-align:left;">
+          <thead>
+            <tr style="border-bottom:2px solid #e2e8f0; color:#64748b; font-size:12px; text-transform:uppercase;">
+              <th style="padding:8px;">Scenario</th>
+              <th style="padding:8px;">Player A Move</th>
+              <th style="padding:8px;">Player B Move</th>
+              <th style="padding:8px;">Resolution</th>
+              <th style="padding:8px;">Payout Mechanism</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f1f5f9;">
+              <td style="padding:8px; font-weight:700;">Decisive Clash</td>
+              <td style="padding:8px;">✊ Rock</td>
+              <td style="padding:8px;">✌️ Scissors</td>
+              <td style="padding:8px; color:#10b981; font-weight:700;">Player A Wins</td>
+              <td style="padding:8px;">2× Stake to Player A pendingBalance</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f1f5f9;">
+              <td style="padding:8px; font-weight:700;">Mutual Draw</td>
+              <td style="padding:8px;">✋ Paper</td>
+              <td style="padding:8px;">✋ Paper</td>
+              <td style="padding:8px; color:#0284c7; font-weight:700;">Draw</td>
+              <td style="padding:8px;">1× Stake refunded to each player</td>
+            </tr>
+            <tr>
+              <td style="padding:8px; font-weight:700;">Attempted Griefing</td>
+              <td style="padding:8px;">✊ Revealed</td>
+              <td style="padding:8px;">🔒 Never Revealed</td>
+              <td style="padding:8px; color:#e11d48; font-weight:700;">Player B Forfeits</td>
+              <td style="padding:8px;">2× Stake awarded to Player A on claimTimeout</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">04 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 5: SECURITY & ATTACK RESISTANCE      -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">Security & Attack Resistance</h2>
+        <p class="slide-subtitle">Formalized defense against copy-attacks, front-running, reentrancy, and DoS</p>
+      </div>
+      <span class="tag-pill" style="color:#d97706; background:#fffbeb; border-color:#fde68a;">Security Architecture</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-3">
+        <div class="card accent-red">
+          <span class="card-icon">🪞</span>
+          <h3 class="card-title">Anti-Copy Attack Scheme</h3>
+          <p class="card-desc">
+            In naive commitment contracts, Player B can copy Player A's hash without knowing the move. PotShot embeds <code class="code-pill">player</code> in the commitment:
+            <br><br>
+            A copied hash creates an un-revealable commitment for Player B, resulting in guaranteed forfeiture.
+          </p>
+        </div>
+
+        <div class="card accent-blue">
+          <span class="card-icon">🔒</span>
+          <h3 class="card-title">Reentrancy & DoS Immunity</h3>
+          <p class="card-desc">
+            External calls are never made during game resolution. Funds are only transferred during an explicit <code class="code-pill">withdraw()</code> execution guarded by OpenZeppelin's <code class="code-pill">ReentrancyGuard</code>. A malicious contract that reverts on ETH receipt only harms itself.
+          </p>
+        </div>
+
+        <div class="card accent-green">
+          <span class="card-icon">⚡</span>
+          <h3 class="card-title">Zero Admin Risk</h3>
+          <p class="card-desc">
+            No owner, no upgrade proxy, no pause switch, and no fee treasury. The contract cannot be modified, seized, or drained. The immutable code deployed to block 29,637,423 is perpetual and fully autonomous.
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="background:#f8fafc; border-left:4px solid #0284c7; padding:20px 28px;">
+        <h4 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">
+          Game-Theoretic Dominant Strategy: Honest Reveal
+        </h4>
+        <p style="font-size:14px; color:#475569; line-height:1.5;">
+          Under traditional escrow, a player who realizes their move lost has an incentive to stall. Under PotShot, failing to reveal forfeits 100% of the pot to the opponent. Revealing always maintains an expected payoff ≥ forfeiting, making immediate reveal the strictly dominant strategy for all players.
+        </p>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">05 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 6: COMPREHENSIVE TESTING MATRIX       -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">Rigorous Testing & Invariant Verification</h2>
+        <p class="slide-subtitle">32 passing Foundry test suites covering fuzzing, edge cases, and state invariants</p>
+      </div>
+      <span class="tag-pill" style="color:#10b981; background:#ecfdf5; border-color:#a7f3d0;">Quality Assurance</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-3">
+        <div class="card accent-green">
+          <div class="stat-badge" style="color:#10b981;">32 / 32</div>
+          <h3 class="card-title">Test Suites Passed</h3>
+          <p class="card-desc">
+            Zero failures, zero warnings. Full coverage of all 9 move combinations, double-reveal blocks, constructor bounds (1 min to 7 days), and pagination.
+          </p>
+        </div>
+
+        <div class="card accent-blue">
+          <div class="stat-badge" style="color:#0284c7;">256</div>
+          <h3 class="card-title">Fuzzing Runs</h3>
+          <p class="card-desc">
+            Randomized stakes, player salts, and execution orders prove native BOT is strictly conserved: never minted, burned, or leaked under any permutation.
+          </p>
+        </div>
+
+        <div class="card accent-amber">
+          <div class="stat-badge" style="color:#d97706;">4,096</div>
+          <h3 class="card-title">Invariant Transitions</h3>
+          <p class="card-desc">
+            Stateful handler executing across 64 runs proves:
+            <code class="code-pill">contract.balance == sum(Open) + 2*sum(Committed) + sum(pending)</code>
+            holds true across every possible state.
+          </p>
+        </div>
+      </div>
+
+      <!-- Test output badge -->
+      <div class="card" style="background:#0f172a; color:#f8fafc; font-family:'JetBrains Mono', monospace; font-size:13px; line-height:1.7; padding:20px 24px;">
+        <div style="color:#10b981; font-weight:700;">[PASS] testFuzz_GamePlayConservesBOTAndAwardsCorrectWinner(uint96,uint8,uint8,bytes32,bytes32,bool) (runs: 256)</div>
+        <div style="color:#38bdf8;">[PASS] test_All9MoveCombinations_BothRevealOrders() (all 3 draws, 6 decisive victories)</div>
+        <div style="color:#38bdf8;">[PASS] test_CopyAttack_Prevented() (player address bound in hash)</div>
+        <div style="color:#38bdf8;">[PASS] test_HidingLosingMove_Fails() (revealer awarded 100% pot on forfeit)</div>
+        <div style="color:#10b981; font-weight:700;">[PASS] invariant_BalanceMatchesLockedStakesPlusPendingBalances() (runs: 64, calls: 4096, reverts: 0)</div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">06 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 7: FRONTEND & USER EXPERIENCE        -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">High-Energy Retro-Arcade Frontend</h2>
+        <p class="slide-subtitle">Vite + React + TypeScript + viem with client-side secret backup and live showdowns</p>
+      </div>
+      <span class="tag-pill" style="color:#0284c7; background:#f0f9ff; border-color:#bae6fd;">UI & UX Polish</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-3">
+        <div class="card accent-red">
+          <span class="card-icon">🕹️</span>
+          <h3 class="card-title">Chunky Neon Arcade Aesthetic</h3>
+          <p class="card-desc">
+            Vibrant cyberpunk arcade theme with Hot Magenta and Electric Cyan accents, 3D offset drop-shadow buttons, animated fist-shaking showdowns, and live countdown timers.
+          </p>
+        </div>
+
+        <div class="card accent-blue">
+          <span class="card-icon">💾</span>
+          <h3 class="card-title">Client-Side Secret Resilience</h3>
+          <p class="card-desc">
+            Salts generated with cryptographic randomness (<code class="code-pill">crypto.getRandomValues</code>) and stored in <code class="code-pill">localStorage</code>. Includes one-click JSON backup export and manual fallback recovery.
+          </p>
+        </div>
+
+        <div class="card accent-green">
+          <span class="card-icon">⚡</span>
+          <h3 class="card-title">Shareable Hash Routing</h3>
+          <p class="card-desc">
+            Direct peer-to-peer challenge links via hash routing (<code class="code-pill">#/game/:id</code>). Allows players to post duel links in Discord or Telegram for instant head-to-head showdowns.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card accent-amber">
+          <h4 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:8px;">
+            💰 Instant Pull-Payment Banner
+          </h4>
+          <p style="font-size:14px; color:#475569;">
+            When winnings or refunds are credited to <code class="code-pill">pendingBalance</code>, a luminous yellow banner notifies the player with an instant "Withdraw All" button.
+          </p>
+        </div>
+
+        <div class="card accent-blue">
+          <h4 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:8px;">
+            📊 Live Player Statistics
+          </h4>
+          <p style="font-size:14px; color:#475569;">
+            Direct onchain tracking of total wins 🏆, losses 💀, and draws 🤝 displayed in real time for connected wallets.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">07 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 8: BOT ECOSYSTEM & ROADMAP           -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">Ecosystem Synergy & Growth Roadmap</h2>
+        <p class="slide-subtitle">Driving native BOT transaction velocity through casual competitive gaming</p>
+      </div>
+      <span class="tag-pill" style="color:#d97706; background:#fffbeb; border-color:#fde68a;">Strategic Vision</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-4">
+        <div class="card accent-blue">
+          <div style="font-size:13px; font-weight:700; color:#0284c7; margin-bottom:6px;">PHASE 1 • COMPLETED</div>
+          <h3 class="card-title" style="font-size:17px;">Testnet Protocol</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Deployed on BOT Testnet (Chain ID 968). Fully tested contract, zero linter warnings, and retro-arcade frontend with secret backup.
+          </p>
+        </div>
+
+        <div class="card accent-amber">
+          <div style="font-size:13px; font-weight:700; color:#d97706; margin-bottom:6px;">PHASE 2 • Q1 2027</div>
+          <h3 class="card-title" style="font-size:17px;">Mainnet Launch</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Deploy to BOT Mainnet (Chain ID 677) with optimized RPC clusters and community wagering pools.
+          </p>
+        </div>
+
+        <div class="card accent-red">
+          <div style="font-size:13px; font-weight:700; color:#e11d48; margin-bottom:6px;">PHASE 3 • Q2 2027</div>
+          <h3 class="card-title" style="font-size:17px;">Telegram Mini App</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Launch seamless Telegram and Discord bots allowing Web3 community members to challenge each other in chat groups instantly.
+          </p>
+        </div>
+
+        <div class="card accent-green">
+          <div style="font-size:13px; font-weight:700; color:#10b981; margin-bottom:6px;">PHASE 4 • Q3 2027</div>
+          <h3 class="card-title" style="font-size:17px;">Tournament SDK</h3>
+          <p class="card-desc" style="font-size:14px;">
+            Expand into Best-of-3 / Best-of-5 tournament brackets and release the PotShot SDK for third-party games to integrate commit-reveal showdowns.
+          </p>
+        </div>
+      </div>
+
+      <!-- BOT Value Prop -->
+      <div class="card" style="background:#f8fafc; border:1px solid #e2e8f0;">
+        <h4 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:6px;">
+          Why the BOT Blockchain is the Ideal Home:
+        </h4>
+        <p style="font-size:14px; color:#475569; line-height:1.6;">
+          High-frequency casual games require fast block times and low transaction fees. The BOT Network's sub-second finality allows players to create, join, reveal, and settle duels in seconds, driving organic token velocity and wallet adoption without artificial incentives.
+        </p>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>"One throw. One pot."</div>
+      <div class="slide-number">08 / 09</div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- SLIDE 9: SUMMARY & ONCHAIN VERIFICATION    -->
+  <!-- ========================================== -->
+  <section class="slide">
+    <div class="slide-header">
+      <div>
+        <h2 class="slide-title">Onchain Coordinates & Summary</h2>
+        <p class="slide-subtitle">Fully verified, deployed, and playable on the BOT Testnet</p>
+      </div>
+      <span class="tag-pill" style="color:#10b981; background:#ecfdf5; border-color:#a7f3d0;">Verified Deployment</span>
+    </div>
+
+    <div class="content-area">
+      <div class="grid-2">
+        <div class="card accent-blue">
+          <h3 class="card-title">Deployment Coordinates</h3>
+          <div style="display:flex; flex-direction:column; gap:12px; margin-top:16px; font-size:14px;">
+            <div>
+              <span style="color:#64748b; font-weight:700;">Contract Address:</span><br>
+              <code class="code-pill" style="font-size:14px; display:inline-block; margin-top:4px;">0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e</code>
+            </div>
+            <div>
+              <span style="color:#64748b; font-weight:700;">Deployment Tx:</span><br>
+              <code class="code-pill" style="font-size:12px; display:inline-block; margin-top:4px;">0x7dd2baac2bc0ede33e99a6a586f41a2fa722fb4f5e2549c09bd83330ba132c14</code>
+            </div>
+            <div>
+              <span style="color:#64748b; font-weight:700;">Network / Chain ID:</span>
+              <span style="font-weight:700; color:#0f172a; margin-left:8px;">BOT Testnet (968)</span>
+            </div>
+            <div>
+              <span style="color:#64748b; font-weight:700;">RPC Endpoint:</span>
+              <span style="font-family:'JetBrains Mono'; margin-left:8px;">https://rpc.bohr.life</span>
+            </div>
+            <div>
+              <span style="color:#64748b; font-weight:700;">BohrScan Explorer:</span>
+              <span style="font-family:'JetBrains Mono'; margin-left:8px;">https://scan.bohr.life</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card accent-green">
+          <h3 class="card-title">Why PotShot Wins</h3>
+          <ul style="margin-top:14px; margin-left:20px; font-size:15px; color:#475569; line-height:1.8;">
+            <li><strong>Zero Platform Edge:</strong> 100% of wagers flow directly to players.</li>
+            <li><strong>Cryptographic Secrecy:</strong> No miner or peer front-running.</li>
+            <li><strong>Grief-Proof Timeouts:</strong> Non-revealing opponents forfeit the full pot.</li>
+            <li><strong>Isolated Payouts:</strong> Pull-based withdrawals block reentrancy exploits.</li>
+            <li><strong>Retro Polish:</strong> Engaging, high-energy arcade interface designed for casual gamers.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:12px;">
+        <div style="font-family:'Press Start 2P', monospace; font-size:24px; color:#0f172a; margin-bottom:8px;">
+          "One throw. One pot."
+        </div>
+        <p style="font-size:16px; color:#64748b;">
+          Play live now at <code class="code-pill">http://localhost:5173/</code> or inspect the contract on BohrScan.
+        </p>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-brand">🎯 PotShot</div>
+      <div>Thank You • Questions & Partnerships: dev@botchain.ai</div>
+      <div class="slide-number">09 / 09</div>
+    </div>
+  </section>
+
+</body>
+</html>

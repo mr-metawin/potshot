@@ -1,0 +1,210 @@
+================================================================================
+                                   POTSHOT
+                            "One throw. One pot."
+            Trustless 1v1 Peer-to-Peer Rock-Paper-Scissors on BOT
+================================================================================
+
+PITCH DECK | NOVEMBER 2026
+
+--------------------------------------------------------------------------------
+SLIDE 1: COVER & EXECUTIVE SUMMARY
+--------------------------------------------------------------------------------
+Project Name : PotShot
+Tagline      : "One throw. One pot."
+Network      : BOT Testnet (Chain ID: 968)
+Contract     : 0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e
+RPC Endpoint : https://rpc.bohr.life
+Explorer     : https://scan.bohr.life
+Native Token : BOT (18 Decimals)
+
+EXECUTIVE SUMMARY:
+PotShot is a trustless, decentralized 1v1 wagering game engineered natively for
+the BOT blockchain. Using cryptographic commit-reveal schemes, PotShot delivers
+an instant, fair, and cheat-proof Rock-Paper-Scissors arena where players stake
+native BOT in winner-takes-all duels.
+
+Eliminating centralized casinos, predatory house edges, opaque VRF oracles, and
+custodial escrow services, PotShot operates purely via autonomous smart contract
+state machines. Zero platform fees, instant pull-based payouts, and automated
+anti-griefing timeout forfeitures ensure complete mathematical fairness.
+
+--------------------------------------------------------------------------------
+SLIDE 2: THE PROBLEM WITH ONCHAIN GAMING & CASINOS
+--------------------------------------------------------------------------------
+Modern Web3 gaming and prediction arenas suffer from critical structural flaws:
+
+1. Predatory House Edges & Rigged Odds:
+   - Traditional crypto casinos take 2% to 15% house cuts and tilt odds against
+     players. Casual gamers want fair 50/50 peer-to-peer competition.
+
+2. Mempool Sniping & Front-Running:
+   - In naive onchain turn-based games, players who submit moves publicly can be
+     front-run by miners, MEV bots, or opponents monitoring the mempool.
+
+3. The "Losing Player Freeze" / Griefing Dilemma:
+   - In two-player commit games, if a player reveals their winning move first, the
+     losing player can simply walk away or disconnect—freezing funds indefinitely
+     or forcing awkward arbitration.
+
+4. Centralized Oracle & VRF Vulnerabilities:
+   - Reliance on off-chain random number generators (RNG) or oracle relays introduces
+     latency, exorbitant subscription gas overhead, and single points of failure.
+
+5. Reentrancy & Unsafe Push-Payment Exploits:
+   - Insecure payout mechanisms that push funds directly to external contracts can
+     be blocked by malicious receiver fallbacks, freezing the whole platform.
+
+--------------------------------------------------------------------------------
+SLIDE 3: THE SOLUTION - POTSHOT
+--------------------------------------------------------------------------------
+PotShot solves every one of these problems with pure cryptographic game theory:
+
+- 100% Peer-to-Peer with Zero House Edge:
+  - 100% of the pot goes to the winner (2x stake). Draws refund both players in full.
+  - No platform fees, no protocol take rates, no hidden taxes.
+
+- Cryptographic Commit-Reveal:
+  - Moves remain completely confidential during commitment:
+    commitment = keccak256(abi.encode(player, move, salt))
+  - Neither the opponent nor block builders can inspect choices before locking in.
+
+- Address-Bound Anti-Copy Protection:
+  - Binding the caller's address directly into the hash preimage guarantees that an
+    opponent cannot blindly copy the creator's commitment hash.
+
+- Automatic Timeout Forfeiture Engine:
+  - If one player reveals and the opponent stalls or abandons, a public timeout
+    claim automatically awards 100% of the pot to the honest revealer. Hiding a
+    losing move provides zero economic advantage.
+
+- Bulletproof Pull-Payment Architecture (`pendingBalance`):
+  - Every settlement credits internal balances. Funds leave only when users
+    explicitly call withdraw(), guaranteeing that rejecting contracts cannot disrupt
+    other players or lock contract state.
+
+--------------------------------------------------------------------------------
+SLIDE 4: HOW IT WORKS (THE GAME LOOP)
+--------------------------------------------------------------------------------
+Step 1: Create Game
+- Player A selects Rock, Paper, or Scissors and stakes native BOT.
+- Frontend generates a cryptographically secure 32-byte salt and computes:
+  commitment = keccak256(abi.encode(playerA, moveA, saltA))
+- `createGame(commitment)` locks the stake in `Status.Open`.
+
+Step 2: Join Game
+- Player B browses open lobbies and matches the exact stake with their secret move.
+- `joinGame(id, commitment)` locks in Player B, records `joinedAt = block.timestamp`,
+  and activates the countdown: `revealDeadline = now + revealWindow`.
+- Status transitions to `Status.Committed`.
+
+Step 3: Reveal Phase
+- Both players reveal their move and salt via `reveal(id, move, salt)`.
+- The contract computes `computeCommitment(msg.sender, move, salt)` and validates
+  it against the stored commitment.
+
+Step 4: Immediate Settlement & Showdown
+- Draw: If moveA == moveB, each player receives their original stake back.
+- Decisive Win: Rock beats Scissors, Scissors beats Paper, Paper beats Rock.
+  Winner receives 2x stake (entire pot) and win/loss records are updated.
+- Timeout / Forfeit: If the deadline expires and only one player revealed, that
+  player wins the entire pot. If neither revealed, both are refunded.
+
+--------------------------------------------------------------------------------
+SLIDE 5: SMART CONTRACT ARCHITECTURE & SECURITY
+--------------------------------------------------------------------------------
+- Contract: `PotShot.sol` (Solidity ^0.8.24)
+- Library: OpenZeppelin Contracts v5.0.2 (`ReentrancyGuard`)
+
+Key Architectural Safeguards:
+1. ReentrancyGuard:
+   - Applied to all balance-mutating functions (`createGame`, `joinGame`, `cancelGame`,
+     `reveal`, `claimTimeout`, `withdraw`).
+2. Strict Checks-Effects-Interactions (CEI):
+   - State variables and `pendingBalance` are updated before events or external transfers.
+3. No Direct Value Reception:
+   - Zero `receive()` or `fallback()` handlers. Plain transfers automatically revert.
+4. Custom Errors:
+   - Gas-optimized custom errors (`ZeroStake`, `InvalidReveal`, `OnlyPlayerA`, etc.)
+     replace heavy require strings.
+5. Immutability & Decentralization:
+   - Immutable `revealWindow` set at deployment (1 hour default, 1 min to 7 days bounds).
+   - No owner, no admin keys, no pause functions, no upgrade proxies.
+
+--------------------------------------------------------------------------------
+SLIDE 6: COMPREHENSIVE TESTING & FORMAL VERIFICATION
+--------------------------------------------------------------------------------
+The PotShot codebase has undergone rigorous Foundry test suites:
+
+- 31 Unit & Fuzz Tests:
+  * Complete matrix of all 9 move combinations (3 draws, 6 wins) verified across both
+    reveal orders (Player A first vs Player B first).
+  * Copy-attack prevention explicitly tested and validated.
+  * Timeout forfeiture mechanics and edge cases verified.
+  * Malicious reentrancy contracts and ETH-rejecting contracts tested in isolation.
+  * 256-run fuzz test (`testFuzz_GamePlayConservesBOTAndAwardsCorrectWinner`) verifying
+    that stakes and BOT are conserved under all random inputs and execution orders.
+
+- Stateful Invariant Testing (`PotShotInvariant.t.sol`):
+  * Multi-actor invariant test executing 64 runs and 4,096 handler calls.
+  * Formal Invariant:
+    contract.balance == sum(Open stakes) + 2 * sum(Committed stakes) + sum(pendingBalances)
+  * Result: 100% PASS with 0 reverts and 0 balance violations.
+
+--------------------------------------------------------------------------------
+SLIDE 7: FRONTEND EXPERIENCE & USER INTERACTION
+--------------------------------------------------------------------------------
+A high-energy, polished Retro-Arcade Neon Web3 Experience:
+
+- Visual Identity:
+  * Cyberpunk arcade look with Hot Magenta (#ff007f), Electric Cyan (#00f0ff), and
+    Arcade Yellow (#ffe600) accents.
+  * Chunky 3D pixel buttons, live animated showdown duels, and countdown clocks.
+
+- Secret Handling & Local Resilience:
+  * Salts generated via `crypto.getRandomValues(32)`.
+  * Secrets stored in browser `localStorage` indexed by chain, contract, and game ID.
+  * "Back Up My Secret" one-click JSON export to clipboard.
+  * Manual secret fallback interface for cross-browser recovery.
+
+- Live Features:
+  * Real-time polling with instant optimistic transaction updates.
+  * Filterable Open Lobby, My Games history, and ID search box.
+  * Shareable hash routes (e.g., `#/game/12`) for direct peer challenge links.
+  * One-click "Withdraw All" pending balance banner.
+  * Collapsible in-app rules and security guides.
+
+--------------------------------------------------------------------------------
+SLIDE 8: THE BOT ECOSYSTEM ADVANTAGE & ROADMAP
+--------------------------------------------------------------------------------
+Why BOT Chain is the Ideal Home for PotShot:
+- Sub-second finality and near-zero transaction fees make micro-wagers viable.
+- Native BOT utility: generates organic onchain transactions, active wallet
+  engagement, and token velocity without artificial tokenomics.
+
+Development Roadmap:
+- Phase 1: Testnet Protocol Launch (Completed)
+  * Contract deployed at 0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e on Chain 968.
+  * Full testing suite and verified Vite + React interface.
+- Phase 2: BOT Mainnet Deployment (Chain ID 677)
+  * Production launch with localized high-speed RPC nodes.
+- Phase 3: Social & Mobile Integration
+  * Telegram Mini App / Discord bot integration for instant group chat duels.
+  * Mobile-optimized PWA with biometric wallet signing.
+- Phase 4: Competitive Extensions
+  * Best-of-3 / Best-of-5 tournament brackets and onchain ELO ranking leaderboards.
+  * PotShot Protocol SDK for third-party games to integrate commit-reveal showdowns.
+
+--------------------------------------------------------------------------------
+SLIDE 9: SUMMARY & ONCHAIN VERIFICATION
+--------------------------------------------------------------------------------
+- Contract Address : 0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e
+- Chain ID         : 968 (BOT Testnet)
+- Explorer Link    : https://scan.bohr.life/address/0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e
+- Deployment Tx    : 0x7dd2baac2bc0ede33e99a6a586f41a2fa722fb4f5e2549c09bd83330ba132c14
+- Status           : Deployed, Verified, and Live
+
+PotShot proves that simple, fair, and transparent mechanics make the most compelling
+onchain applications.
+
+"One throw. One pot."
+================================================================================

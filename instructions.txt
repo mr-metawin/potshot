@@ -1,0 +1,14 @@
+
+
+
+use the potshot wallet from cast wallet, check .env for PASSWORD
+
+
+
+Go to .env, there are 3 wallets there.
+send 0.1 bot each to the 3 wallets (from potshot wallet in cast wallet)
+
+I need 8 transactions from each wallets, so use each wallet to make 8 transactions 
+
+
+lets go
