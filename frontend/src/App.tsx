@@ -10,6 +10,7 @@ import {
 import {
   contractAddress,
   potShotAbi,
+  botMainnet,
   botTestnet,
 } from './contracts';
 import { Move, Status, Game, UserRecord, TxStatus, SavedSecret } from './types';
@@ -31,11 +32,12 @@ import {
   promoteCommitmentToGameId,
   getSecretForGame,
 } from './secret';
+import botLogo from './assets/botchainlogo_transparent.png';
 import './App.css';
 
 const publicClient = createPublicClient({
-  chain: botTestnet,
-  transport: http('https://rpc.bohr.life'),
+  chain: botMainnet,
+  transport: http('https://rpc.botchain.ai'),
 });
 
 export const App: React.FC = () => {
@@ -73,8 +75,8 @@ export const App: React.FC = () => {
   // Transaction Status
   const [txStatus, setTxStatus] = useState<TxStatus>({ state: 'idle' });
 
-  const isCorrectChain = chainId === botTestnet.id;
-  const explorerBaseUrl = 'https://scan.bohr.life';
+  const isCorrectChain = chainId === botMainnet.id;
+  const explorerBaseUrl = 'https://scan.botchain.ai';
 
   // --- Hash Routing Sync ---
   const syncRouteFromHash = useCallback(() => {
@@ -142,14 +144,14 @@ export const App: React.FC = () => {
     }
   };
 
-  const switchToBotTestnet = async () => {
+  const switchToBotMainnet = async () => {
     if (!window.ethereum) return;
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x3c8' }], // 968 in hex
+        params: [{ chainId: '0x2a5' }], // 677 in hex
       });
-      setChainId(968);
+      setChainId(677);
     } catch (switchError: any) {
       if (switchError.code === 4902 || switchError?.data?.originalError?.code === 4902) {
         try {
@@ -157,21 +159,21 @@ export const App: React.FC = () => {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0x3c8',
-                chainName: 'BOT Testnet',
+                chainId: '0x2a5',
+                chainName: 'BOT Mainnet',
                 nativeCurrency: {
                   name: 'BOT',
                   symbol: 'BOT',
                   decimals: 18,
                 },
-                rpcUrls: ['https://rpc.bohr.life'],
-                blockExplorerUrls: ['https://scan.bohr.life'],
+                rpcUrls: ['https://rpc.botchain.ai'],
+                blockExplorerUrls: ['https://scan.botchain.ai'],
               },
             ],
           });
-          setChainId(968);
+          setChainId(677);
         } catch (addError) {
-          console.error('Failed to add BOT Testnet:', addError);
+          console.error('Failed to add BOT Mainnet:', addError);
         }
       } else {
         console.error('Failed to switch network:', switchError);
@@ -370,7 +372,7 @@ export const App: React.FC = () => {
     if (!active) throw new Error('Please connect your wallet first');
     return createWalletClient({
       account: active as `0x${string}`,
-      chain: botTestnet,
+      chain: botMainnet,
       transport: custom(window.ethereum),
     });
   };
@@ -378,7 +380,7 @@ export const App: React.FC = () => {
   // --- Action: Create Game ---
   const handleCreateGame = async () => {
     if (!account) return connectWallet();
-    if (!isCorrectChain) return switchToBotTestnet();
+    if (!isCorrectChain) return switchToBotMainnet();
 
     try {
       const parsedStake = parseEther(createStake);
@@ -466,7 +468,7 @@ export const App: React.FC = () => {
   // --- Action: Join Game ---
   const handleJoinGame = async (game: Game) => {
     if (!account) return connectWallet();
-    if (!isCorrectChain) return switchToBotTestnet();
+    if (!isCorrectChain) return switchToBotMainnet();
 
     try {
       const chosenMove = joinMoves[game.id.toString()] || Move.Rock;
@@ -791,8 +793,8 @@ export const App: React.FC = () => {
         <div className="header-actions">
           {/* Network Switcher */}
           {account && !isCorrectChain && (
-            <button className="btn-arcade btn-magenta btn-sm" onClick={switchToBotTestnet}>
-              ⚠️ Switch to BOT Testnet
+            <button className="btn-arcade btn-magenta btn-sm" onClick={switchToBotMainnet}>
+              ⚠️ Switch to BOT Mainnet
             </button>
           )}
 
@@ -1570,11 +1572,118 @@ export const App: React.FC = () => {
             </p>
 
             <p style={{ fontStyle: 'italic', color: 'var(--text-muted)', fontSize: '12px' }}>
-              Note: PotShot is deployed on the BOT Testnet (Chain ID 968) as a demonstration of trustless peer-to-peer commit-reveal gaming.
+              Note: PotShot is deployed on the BOT Mainnet (Chain ID 677) as a trustless peer-to-peer commit-reveal gaming platform.
             </p>
           </div>
         )}
       </div>
+
+      {/* --- Footer Sections 1 & 2 --- */}
+      <footer className="potshot-footer">
+        {/* Section 1: Proof on bot mainnet */}
+        <div className="footer-proof-section">
+          <div className="footer-proof-badge">
+            <span className="proof-status-dot">●</span>
+            <span className="proof-heading">Proof on bot mainnet</span>
+          </div>
+
+          <div className="proof-info-grid">
+            <div className="proof-info-item">
+              <span className="proof-label">Chain id:</span>
+              <span className="proof-value">677</span>
+            </div>
+            <div className="proof-info-sep">•</div>
+            <div className="proof-info-item">
+              <span className="proof-label">Contract:</span>
+              <a
+                href={`https://scan.botchain.ai/address/${contractAddress}`}
+                target="_blank"
+                rel="noreferrer"
+                className="proof-contract-link"
+              >
+                {contractAddress}
+              </a>
+            </div>
+          </div>
+
+          <div className="footer-links-row">
+            <a
+              href="https://www.botchain.ai/en/"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-external-link"
+            >
+              BOT Chain Website
+            </a>
+            <span className="footer-links-sep">•</span>
+            <a
+              href="https://scan.botchain.ai/"
+              target="_blank"
+              rel="noreferrer"
+              className="footer-external-link"
+            >
+              BOTScan explorer
+            </a>
+          </div>
+        </div>
+
+        {/* Section 2: Part of the Ecosystem */}
+        <div className="ecosystem-section">
+          <div className="ecosystem-header-label">PART OF THE ECOSYSTEM</div>
+
+          <div className="ecosystem-logo-circle">
+            <img src={botLogo} alt="BOT Chain Logo" className="ecosystem-logo" />
+          </div>
+
+          <h3 className="ecosystem-title">
+            <span className="ecosystem-title-bot">BOT</span>
+            <span className="ecosystem-title-chain"> Chain</span>
+          </h3>
+
+          <p className="ecosystem-tagline">
+            One throw. One pot.
+          </p>
+
+          <div className="ecosystem-divider">
+            <span className="ecosystem-divider-line" />
+            <span className="ecosystem-divider-diamond">◆</span>
+            <span className="ecosystem-divider-line" />
+          </div>
+
+          <div className="ecosystem-links">
+            <a
+              href="https://www.botchain.ai/en/"
+              target="_blank"
+              rel="noreferrer"
+              className="ecosystem-link"
+            >
+              <svg className="ecosystem-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+              </svg>
+              <span>botchain.ai</span>
+            </a>
+
+            <a
+              href="https://scan.botchain.ai/"
+              target="_blank"
+              rel="noreferrer"
+              className="ecosystem-link"
+            >
+              <svg className="ecosystem-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span>Explorer</span>
+            </a>
+          </div>
+
+          <div className="ecosystem-copyright">
+            © 2026 <strong>BOT Chain</strong> · Mainnet · Chain ID <strong>677</strong>
+          </div>
+        </div>
+      </footer>
 
       {/* --- Transaction Modal --- */}
       {txStatus.state !== 'idle' && (
@@ -1622,7 +1731,7 @@ export const App: React.FC = () => {
                   rel="noreferrer"
                   style={{ color: 'var(--neon-cyan)' }}
                 >
-                  View on BohrScan ({shortenAddress(txStatus.hash)}) ↗
+                  View on BOTScan ({shortenAddress(txStatus.hash)}) ↗
                 </a>
               </p>
             )}

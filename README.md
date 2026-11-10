@@ -2,20 +2,21 @@
 
 > **One throw. One pot.**
 
-PotShot is a trustless, decentralized 1v1 Rock-Paper-Scissors wagering game built on the BOT Testnet. Players create or join games by staking native BOT tokens, secretly committing to a move using cryptographic commit-reveal, and revealing once both players are locked in. The winner claims the entire pot (2× stake), while draws refund both players. Built with Solidity `^0.8.24` and OpenZeppelin contracts, paired with a retro-arcade React + TypeScript + Vite + viem frontend.
+PotShot is a trustless, decentralized 1v1 Rock-Paper-Scissors wagering game built on the BOT Mainnet. Players create or join games by staking native BOT tokens, secretly committing to a move using cryptographic commit-reveal, and revealing once both players are locked in. The winner claims the entire pot (2× stake), while draws refund both players. Built with Solidity `^0.8.24` and OpenZeppelin contracts, paired with a retro-arcade React + TypeScript + Vite + viem frontend.
 
 ---
 
 ## 🎯 Deployed Contract
 
-- **Network:** BOT Testnet
-- **Chain ID:** `968`
-- **RPC Endpoint:** `https://rpc.bohr.life`
+- **Network:** BOT Mainnet
+- **Chain ID:** `677`
+- **RPC Endpoint:** `https://rpc.botchain.ai`
 - **Native Currency:** BOT (18 decimals)
-- **Block Explorer:** [https://scan.bohr.life](https://scan.bohr.life)
-- **Contract Address:** [`0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e`](https://scan.bohr.life/address/0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e)
-- **Deployment Transaction:** [`0x7dd2baac2bc0ede33e99a6a586f41a2fa722fb4f5e2549c09bd83330ba132c14`](https://scan.bohr.life/tx/0x7dd2baac2bc0ede33e99a6a586f41a2fa722fb4f5e2549c09bd83330ba132c14)
+- **Block Explorer:** [https://scan.botchain.ai](https://scan.botchain.ai)
+- **Contract Address:** [`0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e`](https://scan.botchain.ai/address/0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e)
+- **Deployment Transaction:** [`0x67fb8c2d70bb7f6cbb2542824368aba7f8c90d7129679778d39342ddc392a8f4`](https://scan.botchain.ai/tx/0x67fb8c2d70bb7f6cbb2542824368aba7f8c90d7129679778d39342ddc392a8f4)
 - **Deployed Reveal Window:** `3600` seconds (1 hour)
+- **Contract Verification:** Verified on [BOTScan](https://scan.botchain.ai/address/0x5A682a3450a31fad39F25bB3bCEcF2bDBFdf834e#code)
 
 ---
 

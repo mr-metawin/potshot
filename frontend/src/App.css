@@ -778,3 +778,315 @@ body {
   word-break: break-all;
   user-select: all;
 }
+
+/* ==========================================================================
+   Footer & Ecosystem Sections
+   ========================================================================== */
+
+.potshot-footer {
+  width: 100%;
+  max-width: 900px;
+  margin: 48px auto 24px auto;
+  padding: 32px 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-arcade);
+  border-radius: 12px;
+  box-shadow: var(--shadow-chunky);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* --- Section 1: Proof on bot mainnet --- */
+.footer-proof-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding-bottom: 24px;
+}
+
+.footer-proof-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+.proof-status-dot {
+  color: var(--neon-green);
+  font-size: 11px;
+}
+
+.proof-heading {
+  font-family: var(--font-arcade);
+  font-size: 11px;
+  color: var(--neon-green);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.proof-info-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.proof-info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.proof-label {
+  color: var(--text-muted);
+}
+
+.proof-value {
+  color: var(--neon-yellow);
+  font-weight: 700;
+  font-family: var(--font-arcade);
+  font-size: 11px;
+}
+
+.proof-info-sep {
+  color: var(--border-arcade);
+}
+
+.proof-contract-link {
+  color: var(--neon-cyan);
+  font-family: monospace;
+  font-size: 12px;
+  text-decoration: none;
+  background: var(--bg-dark);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border-arcade);
+  transition: all 0.2s ease;
+  word-break: break-all;
+}
+
+.proof-contract-link:hover {
+  color: #ffffff;
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  text-decoration: underline;
+}
+
+.footer-links-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+.footer-external-link {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.footer-external-link:hover {
+  color: var(--neon-yellow);
+  text-shadow: 0 0 8px rgba(255, 230, 0, 0.5);
+  transform: translateY(-1px);
+}
+
+.footer-links-sep {
+  color: var(--border-arcade);
+}
+
+/* --- Section 2: Part of the Ecosystem --- */
+.ecosystem-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 16px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--border-arcade);
+}
+
+.ecosystem-header-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--neon-magenta);
+  font-family: var(--font-arcade);
+  margin-bottom: 20px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255, 0, 127, 0.4);
+}
+
+.ecosystem-logo-circle {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle at center, rgba(0, 240, 255, 0.15) 0%, rgba(10, 8, 21, 0.95) 75%);
+  border: 1.5px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 
+    0 0 0 5px rgba(0, 240, 255, 0.08),
+    0 0 24px rgba(0, 240, 255, 0.25),
+    inset 0 0 14px rgba(0, 240, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+
+.ecosystem-logo-circle:hover {
+  transform: scale(1.06);
+  border-color: var(--neon-cyan);
+  box-shadow: 
+    0 0 0 7px rgba(0, 240, 255, 0.15),
+    0 0 32px rgba(0, 240, 255, 0.45),
+    inset 0 0 18px rgba(0, 240, 255, 0.25);
+}
+
+.ecosystem-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 240, 255, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.ecosystem-logo-circle:hover .ecosystem-logo {
+  transform: scale(1.08);
+}
+
+.ecosystem-title {
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  margin-bottom: 6px;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ecosystem-title-bot {
+  background: linear-gradient(135deg, #ff007f 0%, #ff5722 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--font-main);
+  font-weight: 800;
+}
+
+.ecosystem-title-chain {
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-weight: 800;
+}
+
+.ecosystem-tagline {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  font-weight: 400;
+  max-width: 480px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.ecosystem-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 280px;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.ecosystem-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border-arcade) 60%, rgba(255, 0, 127, 0.5) 100%);
+}
+
+.ecosystem-divider-line:last-child {
+  background: linear-gradient(90deg, rgba(255, 0, 127, 0.5) 0%, var(--border-arcade) 40%, transparent 100%);
+}
+
+.ecosystem-divider-diamond {
+  color: var(--neon-magenta);
+  font-size: 0.72rem;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(255, 0, 127, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ecosystem-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.ecosystem-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-secondary) !important;
+  text-decoration: none !important;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.ecosystem-link:hover {
+  color: var(--neon-cyan) !important;
+  transform: translateY(-1px);
+}
+
+.ecosystem-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.ecosystem-link:hover .ecosystem-icon {
+  color: var(--neon-cyan);
+  transform: scale(1.1);
+}
+
+.ecosystem-copyright {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.ecosystem-copyright strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
