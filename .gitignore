@@ -24,3 +24,4 @@ frontend/dist/
 .vscode/
 .idea/
 .wrangler/
+contracts/lib/
